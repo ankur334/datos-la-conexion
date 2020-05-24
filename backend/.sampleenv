@@ -1,0 +1,22 @@
+{
+    "default": {
+        "NAME": "data_service",
+        "ENGINE": "django.db.backends.postgresql_psycopg2",
+        "DATABASE_TYPE": "postgres",
+        "DATABASE": "data_service",
+        "USER": "ankur",
+        "PASSWORD": "Dipadi@god5",
+        "HOST": "localhost",
+        "PORT": "5432"
+    },
+    "data": {
+        "NAME": "data_service_data",
+        "ENGINE": "django.db.backends.postgresql_psycopg2",
+        "DATABASE_TYPE": "postgres",
+        "DATABASE": "data_service_data",
+        "USER": "ankur",
+        "PASSWORD": "Dipadi@god5",
+        "HOST": "localhost",
+        "PORT": "5432"
+    }
+}

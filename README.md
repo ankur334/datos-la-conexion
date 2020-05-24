@@ -168,6 +168,7 @@ If this command work perfectly then you will not see any error in your terminal.
 this url to take help for installation of django project `https://tutorial.djangogirls.org/en/installation/`
 
 * Setup Database
+
 ```bash
  sudo su - postgres
  psql
@@ -204,11 +205,10 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 There's a lot of different database software that can store data for your site. Django by default database `sqlite3` 
 database but We'll use the `Postgres`.
 
-There is already Database settings in your `datos/settings.py` file. Search for `DATABASE` key in your 
-`datos/settings.py` file and replace this by following.
+Create one  `.env` file inside `backend` directory and copy following content to it.
 
 ```.env
-DATABASES = {
+{
     "default": {
         "NAME": "data_service",
         "ENGINE": "django.db.backends.postgresql_psycopg2",
@@ -229,6 +229,19 @@ DATABASES = {
         "HOST": "localhost",
         "PORT": "5432"
     }
+}
+```
+
+There is already Database settings in your `datos/settings.py` file. Search for `DATABASE` key in your 
+`datos/settings.py` file and replace this by following.
+
+```.env
+with open(os.path.join(BASE_DIR, 'datos', '.env')) as env_file:
+    ENV_JSON = json.loads(env_file.read())
+
+DATABASES = {
+    'default': ENV_JSON['default'],
+    'data': ENV_JSON['data'],
 }
 ```
 
