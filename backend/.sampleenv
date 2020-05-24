@@ -1,22 +1,29 @@
 {
-    "default": {
-        "NAME": "data_service",
-        "ENGINE": "django.db.backends.postgresql_psycopg2",
-        "DATABASE_TYPE": "postgres",
-        "DATABASE": "data_service",
-        "USER": "ankur",
-        "PASSWORD": "Dipadi@god5",
-        "HOST": "localhost",
-        "PORT": "5432"
-    },
-    "data": {
-        "NAME": "data_service_data",
-        "ENGINE": "django.db.backends.postgresql_psycopg2",
-        "DATABASE_TYPE": "postgres",
-        "DATABASE": "data_service_data",
-        "USER": "ankur",
-        "PASSWORD": "Dipadi@god5",
-        "HOST": "localhost",
-        "PORT": "5432"
+    "MODE": "development",
+    "BASE_URL": "",
+    "DEBUG": true,
+    "ALLOWED_HOSTS": [],
+    "DATABASE": {
+        "default": {
+            "NAME": "<name-of-postgres-database-1>",
+            "ENGINE": "django.db.backends.postgresql_psycopg2",
+            "DATABASE_TYPE": "postgres",
+            "DATABASE": "<name-of-postgres-database-1>",
+            "USER": "<database-user>",
+            "PASSWORD": "<database-user-password>",
+            "HOST": "localhost",
+            "PORT": "5432"
+        },
+        "data": {
+            "NAME": "<name-of-postgres-database-2>",
+            "ENGINE": "django.db.backends.postgresql_psycopg2",
+            "DATABASE_TYPE": "postgres",
+            "DATABASE": "<name-of-postgres-database-2>",
+            "USER": "<database-user>",
+            "PASSWORD": "<database-user-password>",
+            "HOST": "localhost",
+            "PORT": "5432"
+        }
     }
+
 }

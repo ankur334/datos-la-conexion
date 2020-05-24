@@ -1,0 +1,6 @@
+from .base import *
+
+BASE_URL = ENV["BASE_URL"]
+DEBUG = ENV['DEBUG']
+ALLOWED_HOSTS = ENV['ALLOWED_HOSTS']
+Q_CLUSTER = ENV.get('Q_CLUSTER')

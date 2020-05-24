@@ -13,7 +13,8 @@ import json
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
@@ -21,11 +22,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = '#v%##a14o=&vxtd_i8_88+c8q3c904rje=6$1tj1i@88uc8ijr'
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+env_loc = os.path.join(BASE_DIR, '.env')
 
-ALLOWED_HOSTS = []
-
+with open(env_loc) as file:
+    ENV = json.load(file)
 
 # Application definition
 
@@ -68,7 +68,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'datos.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
@@ -76,12 +75,9 @@ with open(os.path.join(BASE_DIR, '.env')) as env_file:
     ENV_JSON = json.loads(env_file.read())
 
 DATABASES = {
-    'default': ENV_JSON['default'],
-    'data': ENV_JSON['data'],
+    'default': ENV_JSON['DATABASE']['default'],
+    'data': ENV_JSON['DATABASE']['data'],
 }
-
-
-
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
@@ -101,7 +97,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
 
@@ -114,7 +109,6 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
