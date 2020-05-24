@@ -210,7 +210,7 @@ Create one  `.env` file inside `backend` directory and copy following content to
 ```.env
 {
     "default": {
-        "NAME": "data_service",
+        "NAME": "datos_application",
         "ENGINE": "django.db.backends.postgresql_psycopg2",
         "DATABASE_TYPE": "postgres",
         "DATABASE": "datos_application",
