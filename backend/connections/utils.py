@@ -4,7 +4,7 @@ from django.conf import settings
 from django.db.models.fields.files import FieldFile
 from rest_framework.exceptions import ValidationError
 
-from backend.connections.exceptions import FileValidationException
+from connections.exceptions import FileValidationException
 
 
 def upload_location(instance, filename):

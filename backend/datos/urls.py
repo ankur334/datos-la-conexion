@@ -22,7 +22,7 @@ urlpatterns = [
         settings.BASE_URL,
         include([
             path(
-                'connections',
+                'connections/',
                 include('connections.urls', namespace='connections'),
                 name='connections'
             )

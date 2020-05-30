@@ -1,9 +1,10 @@
 from rest_framework import status
+from rest_framework.parsers import FileUploadParser
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from backend.connections.exceptions import UnsupportedSerializerException
-from backend.connections.serializers import (
+from connections.exceptions import UnsupportedSerializerException
+from connections.serializers import (
     FlatDataSourceSerializer, DataBaseDataSourceSerializer,
     CloudDataSourceSerializer
 )
@@ -17,13 +18,15 @@ class DataSourceAPIView(APIView):
         This is getter for getting serializer class.
         :return:
         """
+        print("connection_type", connection_type)
+        print("type ", type(connection_type))
         try:
-            connection_type = {
+            serializer_klass = {
                 "FLAT": FlatDataSourceSerializer,
                 "DATABASE": DataBaseDataSourceSerializer,
                 "CLOUD": CloudDataSourceSerializer,
             }
-            return connection_type[str(connection_type).upper()]
+            return serializer_klass[f"{connection_type}"]
         except KeyError as e:
             raise UnsupportedSerializerException(
                 message=str(e),
@@ -41,11 +44,15 @@ class DataSourceAPIView(APIView):
         )
 
     def post(self, request):
+        parser_class = (FileUploadParser,)  # FileUploadParser parses raw file upload content.
+        serializer_klass = self.get_serializer_klass(self.request.data['connection_type'])
+        serializer = serializer_klass(data=request.data)
 
-        return Response(
-            data="Data-source POST method worked perfectly",
-            status=status.HTTP_200_OK
-        )
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def put(self, request):
         return Response(

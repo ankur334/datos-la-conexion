@@ -2,7 +2,7 @@ from django.db import models
 
 
 # Create your models here.
-from backend.connections.utils import upload_location, validate_file
+from connections.utils import upload_location, validate_file
 
 
 class Data(models.Model):
