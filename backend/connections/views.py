@@ -8,9 +8,23 @@ from connections.serializers import (
     FlatDataSourceSerializer, DataBaseDataSourceSerializer,
     CloudDataSourceSerializer
 )
+from connections.utils import get_extension_of_file
 
 
 class DataSourceAPIView(APIView):
+
+    @staticmethod
+    def get_payload(request_data):
+        """
+
+        :param request_data:
+        :return:
+        """
+        if request_data['connection_type'].upper() == 'FLAT':
+            request_data["name"] = request_data['file'].name
+            request_data["display_name"] = request_data['file'].name
+            request_data["type"] = get_extension_of_file(request_data["name"])
+        return request_data
 
     @staticmethod
     def get_serializer_klass(connection_type):
@@ -45,9 +59,11 @@ class DataSourceAPIView(APIView):
 
     def post(self, request):
         parser_class = (FileUploadParser,)  # FileUploadParser parses raw file upload content.
+
+        payload = self.get_payload(request.data)
         serializer_klass = self.get_serializer_klass(self.request.data['connection_type'])
-        serializer = serializer_klass(data=request.data)
-        if serializer.is_valid(raise_exception=True):
+        serializer = serializer_klass(data=payload)
+        if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         else:

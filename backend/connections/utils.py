@@ -72,9 +72,6 @@ def validate_file(file):
     :param file:
     :return:
     """
-    print("Validate file")
-    if isinstance(file, FieldFile):
-        file = file.file
     _validations = {
         "supported_type": get_supported_type,
         "maximum_size": get_maximum_size,
@@ -84,3 +81,11 @@ def validate_file(file):
     for key in _validations:
         _validations[key](file)
 
+
+def get_extension_of_file(name):
+    """
+    Util function to get the extension of the file
+    :param name:
+    :return:
+    """
+    return str(name).split('.')[-1]

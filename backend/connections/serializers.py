@@ -2,6 +2,7 @@ from rest_framework import serializers
 
 from connections.exceptions import FileValidationException, ConnectionException
 from connections.models import File
+from connections.utils import get_extension_of_file
 
 
 class FlatDataSourceSerializer(serializers.ModelSerializer):
@@ -15,7 +16,7 @@ class FlatDataSourceSerializer(serializers.ModelSerializer):
         :param validated_data:
         :return:
         """
-
+        print("Validated Data \n", validated_data)
         return File.objects.create(**validated_data)
 
 

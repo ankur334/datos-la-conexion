@@ -28,3 +28,6 @@ class File(models.Model):
         blank=False,
         max_length=1000
     )
+
+    def __str__(self):
+        return self.file.name
