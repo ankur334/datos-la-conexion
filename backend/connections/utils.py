@@ -53,6 +53,18 @@ def get_minimum_size(file):
         raise ValidationError("This file is empty.")
 
 
+def get_number_of_dot(file):
+    """
+    We don't allow any file to be uploaded if their is more than one dot in file
+    :param file:
+    :return:
+    """
+    print("Calling get_number_of_dot")
+    print("file name ", file.name)
+    if file.name.count('.') > 1:
+        raise ValidationError("File name can't contain more than one dot i.e. `.`")
+
+
 def validate_file(file):
     """
     function for validating file which is being uploaded.
@@ -60,22 +72,15 @@ def validate_file(file):
     :param file:
     :return:
     """
+    print("Validate file")
     if isinstance(file, FieldFile):
         file = file.file
-    try:
-        _validations = {
-            "supported_type": get_supported_type,
-            "maximum_size": get_maximum_size,
-            "minimum_size": get_minimum_size
-        }
-        for key in _validations:
-            _validations[key](file)
-    except Exception as e:
-        raise FileValidationException(
-            message=str(e),
-            params={
-                "info": str(e),
-                "type": "client",
-                "exception": "Exception"
-            }
-        )
+    _validations = {
+        "supported_type": get_supported_type,
+        "maximum_size": get_maximum_size,
+        "minimum_size": get_minimum_size,
+        "number_of_dot": get_number_of_dot
+    }
+    for key in _validations:
+        _validations[key](file)
+

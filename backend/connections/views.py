@@ -3,7 +3,7 @@ from rest_framework.parsers import FileUploadParser
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from connections.exceptions import UnsupportedSerializerException
+from connections.exceptions import UnsupportedSerializerException, ConnectionException
 from connections.serializers import (
     FlatDataSourceSerializer, DataBaseDataSourceSerializer,
     CloudDataSourceSerializer
@@ -47,12 +47,17 @@ class DataSourceAPIView(APIView):
         parser_class = (FileUploadParser,)  # FileUploadParser parses raw file upload content.
         serializer_klass = self.get_serializer_klass(self.request.data['connection_type'])
         serializer = serializer_klass(data=request.data)
-
-        if serializer.is_valid():
+        if serializer.is_valid(raise_exception=True):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         else:
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            raise ConnectionException(
+                message=serializer.errors,
+                params={
+                    "info": serializer.errors,
+                    "type": "server"
+                }
+            )
 
     def put(self, request):
         return Response(
