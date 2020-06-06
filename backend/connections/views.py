@@ -4,10 +4,12 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from connections.exceptions import UnsupportedSerializerException, ConnectionException
+from connections.models import File
 from connections.serializers import (
     FlatDataSourceSerializer, DataBaseDataSourceSerializer,
     CloudDataSourceSerializer
 )
+from connections.service.service import DataService
 from connections.utils import get_extension_of_file
 
 
@@ -52,15 +54,27 @@ class DataSourceAPIView(APIView):
             )
 
     def get(self, request):
+        files_instances = File.objects.all()
+        serializer = FlatDataSourceSerializer(files_instances, many=True)
         return Response(
-            data="Data-source get method worked perfectly",
+            data=serializer.data,
             status=status.HTTP_200_OK
         )
 
     def post(self, request):
+        """
+        This method will be used to create different data-source
+        :param request:
+        :return:
+        """
         parser_class = (FileUploadParser,)  # FileUploadParser parses raw file upload content.
 
+        print("\n\n******************")
+        print("Post method called")
+        print("request ", request.data)
+
         payload = self.get_payload(request.data)
+        print("Payload ", payload)
         serializer_klass = self.get_serializer_klass(self.request.data['connection_type'])
         serializer = serializer_klass(data=payload)
         if serializer.is_valid():

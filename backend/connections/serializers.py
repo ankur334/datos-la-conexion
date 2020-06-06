@@ -17,7 +17,9 @@ class FlatDataSourceSerializer(serializers.ModelSerializer):
         :return:
         """
         print("Validated Data \n", validated_data)
-        return File.objects.create(**validated_data)
+        instance = File.objects.create(**validated_data)
+        
+        return instance
 
 
 class DataBaseDataSourceSerializer(serializers.ModelSerializer):
